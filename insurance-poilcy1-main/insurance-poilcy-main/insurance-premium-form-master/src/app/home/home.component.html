@@ -1,0 +1,22 @@
+
+<div>
+<h1>Home page</h1>
+<form (ngSubmit)="onSubmit()">
+
+    <fieldset>
+        <legend>Select Your Option</legend>
+        <p>
+            <select id="List" name="selectedOption" [(ngModel)]="selectedOption">
+                <option value="admin">Admin</option>
+                <option value="customer">Customer</option>
+                <option value="doctor">doctor</option>
+
+            </select>
+            
+        </p>
+        <button type="submit">NEXT</button>
+    </fieldset>
+</form>
+ 
+ </div>
+ 

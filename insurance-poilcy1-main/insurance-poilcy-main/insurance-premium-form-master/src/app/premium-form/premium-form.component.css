@@ -1,0 +1,77 @@
+.premium-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.premium-form h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.premium-form .form-group {
+  margin-bottom: 15px;
+}
+
+.premium-form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.premium-form .form-group input[type="text"],
+.premium-form .form-group input[type="tel"],
+.premium-form .form-group input[type="date"],
+.premium-form .form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.premium-form .form-group input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.premium-form .form-group input[type="checkbox"] + label {
+  margin-left: 5px;
+}
+
+.premium-form .form-group input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.premium-form button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.premium-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.premium-form h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.premium-form ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.premium-form ul li {
+  margin-bottom: 10px;
+  font-size: 18px;
+}

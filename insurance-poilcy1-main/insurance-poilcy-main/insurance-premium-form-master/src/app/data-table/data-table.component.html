@@ -1,0 +1,56 @@
+<table>
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>
+        Insurance Coverage
+        <button (click)="sortBy('insuranceCoverage', 'asc')">↑</button>
+        <button (click)="sortBy('insuranceCoverage', 'desc')">↓</button>
+      </th>
+      <th>
+        Insurance Premium
+        <button (click)="sortBy('insurancePremium', 'asc')">↑</button>
+        <button (click)="sortBy('insurancePremium', 'desc')">↓</button>
+      </th>
+      <th>
+        Policy Number
+        <button (click)="sortBy('policyNumber', 'asc')">↑</button>
+        <button (click)="sortBy('policyNumber', 'desc')">↓</button>
+      </th>
+      <th>
+        Policy Start Date
+        <button (click)="sortBy('policyStartDate', 'asc')">↑</button>
+        <button (click)="sortBy('policyStartDate', 'desc')">↓</button>
+      </th>
+      <th>
+        Policy End Date
+        <button (click)="sortBy('policyEndDate', 'asc')">↑</button>
+        <button (click)="sortBy('policyEndDate', 'desc')">↓</button>
+      </th>
+    
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of paginatedUsers">
+      <td>{{ item.firstName }}</td>
+      <td>{{ item.lastName }}</td>
+      <td>{{ item.insuranceCoverage }}</td>
+      <td>{{ item.insurancePremium | currency:'INR':'symbol':'1.0-0' }}</td>
+      <td>
+        <button (click)="viewPolicyDetails(item.policyNumber)">
+          {{ item.policyNumber }}
+        </button>
+      </td>
+      <td>{{ item.policyStartDate | date }}</td>
+      <td>{{ item.policyEndDate | date }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Pagination controls -->
+<div class="pagination-controls">
+  <button *ngFor="let pageNumber of getPageNumbers()" (click)="onPageChange(pageNumber)">
+    {{ pageNumber }}
+  </button>
+</div>

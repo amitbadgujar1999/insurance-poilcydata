@@ -1,0 +1,35 @@
+/* Table Styles */
+table {
+  width: 75%;
+  margin: 20px auto; /* Centers the table horizontally */
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 4px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Pagination Controls */
+.pagination-controls {
+  float: right; /* Aligns pagination controls to the left */
+  margin-top: 20px;
+  margin-left: 20px; /* Adds some margin on the left for spacing */
+}
+
+.pagination-controls button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.pagination-controls button:hover {
+  background-color: #ddd;
+}
