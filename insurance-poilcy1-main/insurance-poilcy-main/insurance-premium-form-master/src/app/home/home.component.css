@@ -1,69 +1,77 @@
-/* Overall container */
+/* Ensure the container has some padding and centers the content */
 .container {
-    max-width: 700px;
-    margin: 20px auto;
     padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-/* Heading style */
+/* Form container styling */
+.form-container {
+    background-color: #dddd78;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
 h1 {
-    font-size: 40px;
-    color: #333;
+    text-align: center;
+    font-size: 2.5rem;
     margin-bottom: 20px;
-    text-align: center;
 }
 
-/* Form and fieldset styles */
-form {
-    margin-top: 20px;
-}
-
-fieldset {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-}
-
-legend {
-    font-size: 25px;
-    font-weight: bold;
-    color: #555;
-    text-align: center;
-
-
-}
-
-/* Select box style */
-select {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    box-sizing: border-box;
-    margin-bottom: 10px; /* Add margin bottom for spacing */
-}
-
-/* Button style */
-button {
+/* Responsive image styling */
+.responsive-image {
     display: block;
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007bff; /* Blue button color */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    width: 80%; /* Make the image take up full width of its container */
+    max-width: 1800px; /* Set maximum width to make it larger */
+    height: auto;
+    margin: 0 auto 20px;
 }
 
-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+/* Form fieldset styling */
+fieldset {
+    border: 1px solid #0a0404;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* Legend styling */
+legend {
+    font-size: 28px;
+    color: #0f0404;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Select box styling */
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #0a0202;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 20px;
+     color: #b33900;
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #ff8800;
+    border-color: #0f0908;
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    width: 100%;
+    margin-top: 20px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #07630b;
+    border-color: #02070c;
 }

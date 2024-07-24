@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-premium-form',
@@ -7,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./premium-form.component.css']
 })
 export class PremiumFormComponent {
+
   adminIdValue: string = '';
   formModel = {
     firstName: '',
@@ -33,10 +35,17 @@ export class PremiumFormComponent {
     policyDuration: 1,
     insuranceAmount: 100000 // Example insurance amount
   };
+  calculatedPremiumForSelectedDuration: number | null = null;
+
+  constructor(private router: Router, private sharedService: SharedService) {}
 
   onSubmit() {
     this.calculateAge();
     this.calculatePremium();
+    this.displaySelectedDurationPremium();
+    this.sharedService.setPremium(this.calculatedPremiumForSelectedDuration || 0);
+    this.sharedService.setCoverage(this.formModel.insuranceAmount);
+    // No need to call displayPremium here; it's handled in the template
   }
 
   calculateAge() {
@@ -140,9 +149,15 @@ export class PremiumFormComponent {
     }
   }
 
-  constructor(private router: Router) {}
+  displaySelectedDurationPremium() {
+    const selectedDuration = this.formModel.policyDuration.toString() + 'years';
+    this.calculatedPremiumForSelectedDuration = this.formModel.calculatedPremium[selectedDuration];
+  }
 
-  navigateToAdmin() {
-    this.router.navigate(['/admin']);
+  proceedForPolicyForm() {
+    this.router.navigate(['/policy-form']);
+  }
+  proceedForclaimForm() {
+    this.router.navigate(['/claim-form']);
   }
 }

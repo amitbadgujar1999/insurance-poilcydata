@@ -1,0 +1,88 @@
+/* General container styles */
+.policy-form {
+    width: 75%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Heading style */
+.policy-form h1 {
+    margin-bottom: 30px;
+    text-align: center;
+    color: #0072ff;
+}
+
+/* Form group styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: bold;
+}
+
+/* Input styles */
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    color: #333;
+    background-color: #ffffff;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+input[type="text"]:readonly,
+input[type="number"]:readonly {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus {
+    border-color: #0072ff;
+    background-color: #e6f7ff;
+    outline: none;
+}
+
+/* Button styles */
+button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0072ff;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #005bb5;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #004494;
+    transform: scale(1);
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}

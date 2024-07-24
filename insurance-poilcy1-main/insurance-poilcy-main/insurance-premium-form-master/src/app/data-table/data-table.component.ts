@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { DataService } from '../data.service';
 
 @Component({
@@ -13,27 +14,23 @@ export class DataTableComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 10;
   loading: boolean = true;
-  claimNumber:any[] =[];
 
   constructor(
-    private dataService: DataService, 
-    private router: Router, 
-    private route: ActivatedRoute
+    private dataService: DataService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadUsers();
-   
+    this.loadData();
   }
 
-  loadUsers(): void {
+  loadData(): void {
     this.dataService.getUsers().subscribe({
-      next: (data: any[]) => {
-        this.users = data || [];
-        this.paginateUsers();
-        this.loading = false;
+      next: (users) => {
+        this.users = users || [];
+        this.fetchClaimDetails();
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error('Error fetching users:', err);
         this.users = [];
         this.paginatedUsers = [];
@@ -42,8 +39,27 @@ export class DataTableComponent implements OnInit {
     });
   }
 
-  
+  fetchClaimDetails(): void {
+    const claimDetailsRequests = this.users.map(user =>
+      this.dataService.getClaimDetails1(user.policyNumber)
+    );
 
+    forkJoin(claimDetailsRequests).subscribe({
+      next: (claimDetailsArray) => {
+        claimDetailsArray.forEach((claimDetails, index) => {
+          this.users[index].claimDetails = claimDetails.length ? claimDetails[0] : {};
+        });
+        this.paginateUsers();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching claim details:', err);
+        this.users.forEach(user => user.claimDetails = {});
+        this.paginateUsers();
+        this.loading = false;
+      }
+    });
+  }
 
   sortBy(key: string, order: 'asc' | 'desc'): void {
     if (this.users && this.users.length > 0) {

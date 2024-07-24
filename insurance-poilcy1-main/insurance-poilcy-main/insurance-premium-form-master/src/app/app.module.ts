@@ -13,7 +13,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { PolicyDetailsComponent } from './policy-details/policy-details.component';
 import { DoctorComponentComponent } from './doctor-component/doctor-component.component';
 import { DataclaimComponent } from './dataclaim/dataclaim.component';
-import { ClaimdetailsComponent } from './claimdetails/claimdetails.component'; // Import HttpClientModule
+import { ClaimdetailsComponent } from './claimdetails/claimdetails.component';
+import { PolicyFormComponent } from './policy-form/policy-form.component';
+import { ClaimFormComponent } from './claim-form/claim-form.component'; // Import HttpClientModule
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { ClaimdetailsComponent } from './claimdetails/claimdetails.component'; /
     DoctorComponentComponent,
     DataclaimComponent,
     ClaimdetailsComponent,
+    PolicyFormComponent,
+    ClaimFormComponent,
   
   ],
   imports: [

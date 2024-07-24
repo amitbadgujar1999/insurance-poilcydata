@@ -28,7 +28,8 @@
         <button (click)="sortBy('policyEndDate', 'asc')">↑</button>
         <button (click)="sortBy('policyEndDate', 'desc')">↓</button>
       </th>
-    
+      <th>Claim Number</th>
+      <th>Claim Status</th>
     </tr>
   </thead>
   <tbody>
@@ -44,6 +45,8 @@
       </td>
       <td>{{ item.policyStartDate | date }}</td>
       <td>{{ item.policyEndDate | date }}</td>
+      <td>{{ item.claimDetails?.id }}</td>
+      <td>{{ item.claimDetails?.claimStatus }}</td>
     </tr>
   </tbody>
 </table>

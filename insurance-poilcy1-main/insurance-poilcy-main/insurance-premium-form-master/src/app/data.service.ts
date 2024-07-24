@@ -22,14 +22,7 @@ export class DataService {
     );
   }
 
- getClaimstatus(): Observable<any[]> {
-    return this.http.get<any[]>(this.claimDetailsUrl).pipe(
-      catchError(error => {
-        console.error('Error fetching users:', error);
-        return of([]); // Return an empty array on error
-      })
-    );
-  }
+ 
 
   getPolicyDetails(policyNumber: string): Observable<any> {
     return this.http.get<any>(`${this.usersUrl}/${policyNumber}`).pipe(
@@ -67,7 +60,9 @@ export class DataService {
       })
     );
   }
-
+  savePolicy(policy: any): Observable<any> {
+    return this.http.post(this.usersUrl, policy);
+  }
   updateClaim(claimNumber: string, updatedClaim: any): Observable<any> {
     return this.http.patch<any>(`${this.claimDetailsUrl}/${claimNumber}`, updatedClaim).pipe(
       catchError(error => {
@@ -94,4 +89,15 @@ export class DataService {
       })
     );
   }
+  addClaimToPrimary(claim: any): Observable<any> {
+    return this.http.post<any>(this.claimsUrl, claim);
+  }
+
+  addClaimToSecondary(claim: any): Observable<any> {
+    return this.http.post<any>(this.claimDetailsUrl, claim);
+  }
+  getClaimDetails1(policyNumber: string): Observable<any> {
+    return this.http.get<any>(`${this.claimDetailsUrl}?policyNumber=${policyNumber}`);
+  }
+  
 }

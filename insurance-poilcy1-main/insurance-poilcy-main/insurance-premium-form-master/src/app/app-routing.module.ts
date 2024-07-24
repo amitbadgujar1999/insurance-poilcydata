@@ -8,17 +8,19 @@ import { PolicyDetailsComponent } from './policy-details/policy-details.componen
 import { DoctorComponentComponent } from './doctor-component/doctor-component.component';
 import { DataclaimComponent } from './dataclaim/dataclaim.component';
 import { ClaimdetailsComponent } from './claimdetails/claimdetails.component';
-
+import { PolicyFormComponent } from './policy-form/policy-form.component';
+import { ClaimFormComponent } from './claim-form/claim-form.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'premium-form', component: PremiumFormComponent },
+{path:'policy-form',component:PolicyFormComponent},
+{path:'claim-form',component:ClaimFormComponent},
   { path: 'admin', component: AdminComponent },
   { path: 'data-table', component: DataTableComponent },
-
   { path: 'policy-details/:policyNumber', component: PolicyDetailsComponent },
-{path:'doctor',component:DoctorComponentComponent},
-{path:'dataclaim',component:DataclaimComponent},
-{path:'claim-details/:claimNumber',component:ClaimdetailsComponent},
+  {path:'doctor',component:DoctorComponentComponent},
+  {path:'dataclaim',component:DataclaimComponent},
+  {path:'claim-details/:claimNumber',component:ClaimdetailsComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Default route to redirect to /home
   { path: '**', redirectTo: '/home', pathMatch: 'full' }, // Redirects all other paths to /home
 ];

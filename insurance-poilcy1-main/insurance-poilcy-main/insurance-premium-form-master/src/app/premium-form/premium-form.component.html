@@ -1,3 +1,4 @@
+<!-- premium-form.component.html -->
 <div class="premium-form">
   <h1>Insurance Premium Calculator</h1>
 
@@ -77,16 +78,13 @@
     <button type="submit">Calculate Premium</button>
   </form>
 
-  <!-- Display Calculated Premiums -->
-  <div *ngIf="formModel.age > 0">
-    <h2>Calculated Premiums</h2>
-    <ul>
-      <li *ngIf="formModel.calculatedPremium['1years']">1 year: {{ formModel.calculatedPremium['1years'] | currency:'INR':'symbol' }}</li>
-      <li *ngIf="formModel.calculatedPremium['2years']">2 years: {{ formModel.calculatedPremium['2years'] | currency:'INR':'symbol' }}</li>
-      <li *ngIf="formModel.calculatedPremium['3years']">3 years: {{ formModel.calculatedPremium['3years'] | currency:'INR':'symbol' }}</li>
-      <li *ngIf="formModel.calculatedPremium['5years']">5 years: {{ formModel.calculatedPremium['5years'] | currency:'INR':'symbol' }}</li>
-    </ul>
+  <!-- Display Calculated Premium for the Selected Duration -->
+  <div *ngIf="calculatedPremiumForSelectedDuration !== null">
+    <h2>Calculated Premium</h2>
+    <p>Premium for {{ formModel.policyDuration }} year(s): {{ calculatedPremiumForSelectedDuration | currency:'INR':'symbol' }}</p>
+    <!-- Proceed to Policy Form Button -->
+    <button (click)="proceedForPolicyForm()">Proceed to Policy Form</button>
   </div>
-
-  <!-- Navigation Button -->
+  <div><button (click)="proceedForclaimForm()">Proceed to claim-form </button>
+  </div>
 </div>

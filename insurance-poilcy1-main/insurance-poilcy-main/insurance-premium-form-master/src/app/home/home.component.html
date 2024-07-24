@@ -1,22 +1,18 @@
+<div class="container">
+    <form (ngSubmit)="onSubmit()" class="form-container">
+        <h1>HEALTHCARE INSURANCE</h1>
+        <img src="assets/health-Insurance.png" alt="Description of image" class="responsive-image">
 
-<div>
-<h1>Home page</h1>
-<form (ngSubmit)="onSubmit()">
-
-    <fieldset>
-        <legend>Select Your Option</legend>
-        <p>
-            <select id="List" name="selectedOption" [(ngModel)]="selectedOption">
-                <option value="admin">Admin</option>
-                <option value="customer">Customer</option>
-                <option value="doctor">doctor</option>
-
-            </select>
-            
-        </p>
-        <button type="submit">NEXT</button>
-    </fieldset>
-</form>
- 
- </div>
- 
+        <fieldset>
+            <legend>Select Your Option</legend>
+            <p>
+                <select id="List" name="selectedOption" [(ngModel)]="selectedOption" class="form-control">
+                    <option value="admin">Admin</option>
+                    <option value="customer">Customer</option>
+                    <option value="doctor">Doctor</option>
+                </select>
+            </p>
+            <button type="submit" class="btn btn-primary">NEXT</button>
+        </fieldset>
+    </form>
+</div>
