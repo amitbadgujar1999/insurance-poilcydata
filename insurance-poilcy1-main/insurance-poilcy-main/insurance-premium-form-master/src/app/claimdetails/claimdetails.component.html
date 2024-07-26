@@ -56,14 +56,25 @@
       <strong>Remarks:</strong> {{ claimDetails.remarks }}
     </div>
 
-    <!-- Approval Button -->
+    <!-- Approval and Rejection Buttons -->
     <div class="approval-container">
-      <button *ngIf="claimDetails.claimStatus !== 'Approved'" (click)="approveClaim()">Approve Claim</button>
+      <button *ngIf="claimDetails.claimStatus !== 'Approved' && claimDetails.claimStatus !== 'Rejected'" (click)="approveClaim()">Approve Claim</button>
+      <button *ngIf="claimDetails.claimStatus !== 'Rejected'" (click)="rejectClaim()">Reject Claim</button>
     </div>
 
     <!-- Display Approval Message -->
     <div *ngIf="approvalMessage" class="approval-message">
       {{ approvalMessage }}
+    </div>
+
+    <!-- Rejection Reason Modal -->
+    <div *ngIf="showRejectModal" class="modal">
+      <div class="modal-content">
+        <h2>Reject Claim</h2>
+        <textarea [(ngModel)]="rejectionReason" placeholder="Enter reason for rejection"></textarea>
+        <button (click)="confirmReject()">Submit Rejection</button>
+        <button (click)="cancelReject()">Cancel</button>
+      </div>
     </div>
   </div>
   <button (click)="goBack()">Back</button>

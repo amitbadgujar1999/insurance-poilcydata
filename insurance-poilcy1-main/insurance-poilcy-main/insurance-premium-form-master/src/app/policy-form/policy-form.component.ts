@@ -1,73 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataService } from '../data.service';
-import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-policy-form',
   templateUrl: './policy-form.component.html',
   styleUrls: ['./policy-form.component.css']
 })
-export class PolicyFormComponent implements OnInit {
+export class PolicyFormComponent {
   policyModel = {
-    policyNumber: '', // Will be set dynamically
+    policyNumber: '',
     firstName: '',
     lastName: '',
-    insuranceAmount: 0,
-    Premium: 0,
+    insuranceCoverage: '',
+    insurancePremium: 0,
     policyStartDate: '',
     policyEndDate: ''
   };
+  isPolicySubmitted = false;
+  submittedPolicyNumber = '';
 
-  private policyCount: number = 0; // Counter for policy number generation
-  isPolicySubmitted: boolean = false; // Flag to track if policy has been submitted
+  constructor(private dataService: DataService, private router: Router) {}
 
-  constructor(private sharedService: SharedService, private dataService: DataService) {}
+  onSubmit(): void {
+    const generatedId = this.generatePolicyNumber();
+    const policyData = { ...this.policyModel, id: generatedId, policyNumber: generatedId };
 
-  ngOnInit() {
-    // Initialize insuranceAmount and Premium from SharedService
-    this.policyModel.insuranceAmount = this.sharedService.getCoverage();
-    this.policyModel.Premium = this.sharedService.getPremium();
-
-    // Generate and set a unique policy number
-    this.policyModel.policyNumber = this.generatePolicyNumber();
-  }
-
-  generatePolicyNumber(): string {
-    this.policyCount++; // Increment policy count
-    return `POL${String(this.policyCount).padStart(2, '0')}`; // Format policy number as POL01, POL02, etc.
-  }
-
-  onSubmit() {
-    // Use policyNumber as ID
-    const policyWithId = { ...this.policyModel, id: this.policyModel.policyNumber };
-
-    // Save policy data using DataService
-    this.dataService.savePolicy(policyWithId).subscribe(response => {
+    this.dataService.savePolicy(policyData).subscribe(response => {
       console.log('Policy saved successfully', response);
-      // Set flag to hide policy number after submission
-      this.isPolicySubmitted = true;
-      
-      // Reset the form after successful submission
-      this.resetForm();
+      this.submittedPolicyNumber = policyData.policyNumber; // Set the submitted policy number
+      this.isPolicySubmitted = true; // Show success message
     }, error => {
       console.error('Error saving policy', error);
-      // Optionally, handle the error (e.g., show an error message)
     });
   }
 
-  resetForm() {
-    // Clear form fields and generate a new policy number
-    this.policyModel = {
-      policyNumber: this.generatePolicyNumber(), // Generate a new policy number
-      firstName: '',
-      lastName: '',
-      insuranceAmount: this.sharedService.getCoverage(), // Reinitialize values
-      Premium: this.sharedService.getPremium(),
-      policyStartDate: '',
-      policyEndDate: ''
-    };
-
-    // Reset the submission flag
-    this.isPolicySubmitted = false;
+  generatePolicyNumber(): string {
+    // Generate and return policy number
+    return `POL${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
   }
 }

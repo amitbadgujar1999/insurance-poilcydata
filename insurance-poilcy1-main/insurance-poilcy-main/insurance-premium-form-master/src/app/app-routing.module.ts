@@ -10,11 +10,13 @@ import { DataclaimComponent } from './dataclaim/dataclaim.component';
 import { ClaimdetailsComponent } from './claimdetails/claimdetails.component';
 import { PolicyFormComponent } from './policy-form/policy-form.component';
 import { ClaimFormComponent } from './claim-form/claim-form.component';
+import { PolicyStatusCheckComponent } from './policy-status-check/policy-status-check.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'premium-form', component: PremiumFormComponent },
 {path:'policy-form',component:PolicyFormComponent},
 {path:'claim-form',component:ClaimFormComponent},
+{path:'policystatuscheck',component:PolicyStatusCheckComponent},
   { path: 'admin', component: AdminComponent },
   { path: 'data-table', component: DataTableComponent },
   { path: 'policy-details/:policyNumber', component: PolicyDetailsComponent },

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { SharedService } from '../shared.service';
+import { Router } from '@angular/router'; // Import the Router
 
 @Component({
   selector: 'app-premium-form',
@@ -8,156 +7,127 @@ import { SharedService } from '../shared.service';
   styleUrls: ['./premium-form.component.css']
 })
 export class PremiumFormComponent {
+  basePremium = 8000;
+  insuranceCoverageAmount = 100000; // Default insurance coverage amount
+  coverageOptions = [100000, 200000, 300000, 400000, 500000];
+  durations = [1, 2, 3, 5];
+  premiums: { [key: number]: number } = {};
+  selectedDuration = this.durations[0]; // Default duration
+  age: number | undefined;
+  firstName = '';
+  lastName = '';
+  phoneNumber = '';
+  dateOfBirth: string = '';
 
-  adminIdValue: string = '';
-  formModel = {
-    firstName: '',
-    lastName: '',
-    birthday: '',
-    gender: '',
-    phoneNumber: '',
-    smoking: false,
-    alcohol: false,
-    tobacco: false,
-    plan: {
-      tobacco: false,
-      smoking: false,
-      alcohol: false
-    },
-    age: 0,
-    basePremium: 8000, // Example base premium amount
-    calculatedPremium: {
-      '1years': 0,
-      '2years': 0,
-      '3years': 0,
-      '5years': 0
-    } as { [key: string]: number },
-    policyDuration: 1,
-    insuranceAmount: 100000 // Example insurance amount
-  };
-  calculatedPremiumForSelectedDuration: number | null = null;
+  hasTobacco = false;
+  hasSmoking = false;
+  hasAlcohol = false;
 
-  constructor(private router: Router, private sharedService: SharedService) {}
+  calculatedPremium: number | null = null; // To hold the calculated premium value
 
-  onSubmit() {
+  constructor(private router: Router) { // Inject the Router service
+    // No need to calculate premiums in the constructor
+  }
+
+  onDateOfBirthChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.dateOfBirth = input.value;
     this.calculateAge();
-    this.calculatePremium();
-    this.displaySelectedDurationPremium();
-    this.sharedService.setPremium(this.calculatedPremiumForSelectedDuration || 0);
-    this.sharedService.setCoverage(this.formModel.insuranceAmount);
-    // No need to call displayPremium here; it's handled in the template
   }
 
   calculateAge() {
-    const today = new Date();
-    const birthDate = new Date(this.formModel.birthday);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
+    if (this.dateOfBirth) {
+      const birthDate = new Date(this.dateOfBirth);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const monthDifference = today.getMonth() - birthDate.getMonth();
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        this.age = age - 1;
+      } else {
+        this.age = age;
+      }
     }
-    this.formModel.age = age;
   }
 
-  calculatePremium() {
-    const basePremium = this.formModel.basePremium;
-    const insuranceAmount = this.formModel.insuranceAmount;
+  getAgeDiscount(age: number): number {
+    if (age >= 20 && age <= 30) {
+      return 0.10; // 10% discount
+    } else if (age >= 31 && age <= 40) {
+      return 0.05; // 5% discount
+    } else {
+      return 0; // No discount for age 41 and above
+    }
+  }
 
-    if (insuranceAmount < 100000) {
-      alert('Insurance amount must be at least $100,000.');
+  applyBadHabitPremium(premium: number): number {
+    let adjustedPremium = premium;
+    const habitsCount = [this.hasTobacco, this.hasSmoking, this.hasAlcohol].filter(habit => habit).length;
+
+    if (habitsCount === 1) {
+      if (this.hasTobacco) {
+        adjustedPremium *= 1.05; // Increase by 5% for tobacco
+      }
+      if (this.hasSmoking) {
+        adjustedPremium *= 1.10; // Increase by 10% for smoking
+      }
+      if (this.hasAlcohol) {
+        adjustedPremium *= 1.07; // Increase by 7% for alcohol
+      }
+    } else if (habitsCount === 2) {
+      adjustedPremium *= 1.12; // Increase by 12% for any two bad habits
+    } else if (habitsCount === 3) {
+      adjustedPremium *= 1.15; // Increase by 15% for all three bad habits
+    }
+
+    return adjustedPremium;
+  }
+
+  calculatePremiums() {
+    if (this.age === undefined) {
+      alert('Please set the age.');
       return;
     }
+    const ageDiscount = this.getAgeDiscount(this.age);
+    const coverageMultiplier = this.insuranceCoverageAmount / 100000; // Adjust based on coverage amount
 
-    // Calculate premiums for different durations
-    this.formModel.calculatedPremium['1years'] = this.calculatePremiumForDuration(1);
-    this.formModel.calculatedPremium['2years'] = this.calculatePremiumForDuration(2);
-    this.formModel.calculatedPremium['3years'] = this.calculatePremiumForDuration(3);
-    this.formModel.calculatedPremium['5years'] = this.calculatePremiumForDuration(5);
+    // Calculate premium for each duration
+    let premium1Year = this.basePremium * coverageMultiplier;
+    let premium2Years = this.basePremium * 2 * coverageMultiplier;
+    let premium3Years = this.basePremium * 3 * coverageMultiplier;
+    let premium5Years = this.basePremium * 5 * coverageMultiplier;
 
-    // Apply habit-based adjustments for specified durations
-    const selectedDuration = this.formModel.policyDuration.toString() + 'years'; // Convert selected duration to string
+    // Apply bad habit logic
+    premium1Year = this.applyBadHabitPremium(premium1Year);
+    premium2Years = this.applyBadHabitPremium(premium2Years);
+    premium3Years = this.applyBadHabitPremium(premium3Years);
+    premium5Years = this.applyBadHabitPremium(premium5Years);
 
-    if (this.formModel.plan.tobacco && selectedDuration !== '1years') {
-      this.applyHabitPremium(1.18, ['2years', '3years', '5years']);
-    }
-    if (this.formModel.plan.smoking && selectedDuration !== '1years') {
-      this.applyHabitPremium(1.23, ['2years', '3years', '5years']);
-    }
-    if (this.formModel.plan.alcohol && selectedDuration !== '1years') {
-      this.applyHabitPremium(1.12, ['2years', '3years', '5years']);
-    }
+    // Apply age-based discount
+    this.premiums[1] = premium1Year * (1 - ageDiscount);
+    this.premiums[2] = premium2Years * (1 - ageDiscount);
+    this.premiums[3] = premium3Years * (1 - ageDiscount);
+    this.premiums[5] = premium5Years * (1 - ageDiscount);
 
-    // Apply age-based adjustments
-    this.applyAgeDiscount(this.getAgeFactor(this.formModel.age));
-
-    // Apply insurance amount-based adjustments
-    this.applyInsuranceAmountPremium(insuranceAmount);
+    // Update the calculated premium based on selected duration
+    this.calculatedPremium = this.premiums[this.selectedDuration] || 0;
   }
 
-  calculatePremiumForDuration(years: number): number {
-    const basePremium = this.formModel.basePremium;
-    const factor = this.getPremiumFactor(years);
-    return basePremium * factor;
+  onCalculatePremium() {
+    this.calculatePremiums();
   }
 
-  getPremiumFactor(years: number): number {
-    switch (years) {
-      case 1:
-        return 1.0;
-      case 2:
-        return 0.95;
-      case 3:
-        return 0.90;
-      case 5:
-        return 0.85;
-      default:
-        return 1.0;
-    }
+  getSelectedPremium(): number {
+    return this.calculatedPremium || 0;
   }
 
-  getAgeFactor(age: number): number {
-    if (age < 25) return 1.2;
-    if (age >= 25 && age <= 35) return 1.0;
-    if (age >= 36 && age <= 45) return 1.1;
-    return 1.3;
-  }
-
-  applyAgeDiscount(factor: number) {
-    for (const duration in this.formModel.calculatedPremium) {
-      if (Object.prototype.hasOwnProperty.call(this.formModel.calculatedPremium, duration)) {
-        this.formModel.calculatedPremium[duration] *= factor;
-      }
-    }
-  }
-
-  applyHabitPremium(factor: number, durations: string[]) {
-    durations.forEach(duration => {
-      if (this.formModel.calculatedPremium[duration]) {
-        this.formModel.calculatedPremium[duration] *= factor;
-      }
-    });
-  }
-
-  applyInsuranceAmountPremium(amount: number) {
-    const baseAmount = 100000; // Minimum insurance amount
-    const factor = amount / baseAmount; // Calculate premium adjustment factor based on insurance amount
-
-    for (const duration in this.formModel.calculatedPremium) {
-      if (Object.prototype.hasOwnProperty.call(this.formModel.calculatedPremium, duration)) {
-        this.formModel.calculatedPremium[duration] *= factor;
-      }
-    }
-  }
-
-  displaySelectedDurationPremium() {
-    const selectedDuration = this.formModel.policyDuration.toString() + 'years';
-    this.calculatedPremiumForSelectedDuration = this.formModel.calculatedPremium[selectedDuration];
-  }
-
-  proceedForPolicyForm() {
+  navigateToPolicyForm() {
     this.router.navigate(['/policy-form']);
   }
-  proceedForclaimForm() {
+
+  navigateToClaimForm() {
     this.router.navigate(['/claim-form']);
+  }
+  navigateTopolicystatuscheck() {
+    this.router.navigate(['/policystatuscheck']);
   }
 }

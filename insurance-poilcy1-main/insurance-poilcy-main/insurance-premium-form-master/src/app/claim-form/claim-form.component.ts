@@ -9,12 +9,12 @@ import { DataService } from '../data.service'; // Adjust the path as necessary
 export class ClaimFormComponent implements OnInit {
   claim = {
     id: '',
-    claimNumber:'',
+    claimNumber: '',
     patientName: '',
     policyNumber: '',
     dateOfClaim: '',
     claimAmount: 0,
-    claimStatus: '',
+    claimStatus: 'Pending', // Set default value here
     dateOfIncident: '',
     incidentDescription: '',
     hospitalName: '',
@@ -28,6 +28,7 @@ export class ClaimFormComponent implements OnInit {
   };
 
   private claimIdCounter: number = 1; // Counter to generate claim IDs
+  successMessage: string = '';
 
   constructor(private dataService: DataService) {}
 
@@ -62,6 +63,7 @@ export class ClaimFormComponent implements OnInit {
       // Save to secondary URL after successful primary save
       this.dataService.addClaimToSecondary(claim).subscribe(response => {
         console.log('Claim saved to secondary:', response);
+        this.successMessage = `Claim submitted successfully! Your claim number is ${claim.claimNumber}.`;
         this.resetForm();
       }, error => {
         console.error('Error saving claim to secondary:', error);
@@ -74,12 +76,12 @@ export class ClaimFormComponent implements OnInit {
   resetForm() {
     this.claim = {
       id: '',
-      claimNumber:'',
+      claimNumber: '',
       patientName: '',
       policyNumber: '',
       dateOfClaim: '',
       claimAmount: 0,
-      claimStatus: '',
+      claimStatus: 'Pending', // Reset default value here
       dateOfIncident: '',
       incidentDescription: '',
       hospitalName: '',
@@ -92,5 +94,11 @@ export class ClaimFormComponent implements OnInit {
       documentsSubmitted: ''
     };
     this.generateClaimId();
+  }
+
+  onFileChange(event: any) {
+    const files = event.target.files;
+    console.log(files);
+    // Handle file uploads here
   }
 }

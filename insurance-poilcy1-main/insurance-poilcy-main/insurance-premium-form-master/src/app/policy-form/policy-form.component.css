@@ -1,88 +1,60 @@
-/* General container styles */
-.policy-form {
-    width: 75%;
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    font-family: 'Roboto', sans-serif;
-}
-
-/* Heading style */
-.policy-form h1 {
-    margin-bottom: 30px;
-    text-align: center;
-    color: #0072ff;
-}
-
-/* Form group styles */
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-    color: #555;
-    font-weight: bold;
-}
-
-/* Input styles */
-input[type="text"],
-input[type="number"],
-input[type="date"] {
-    width: 100%;
-    padding: 12px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1em;
-    color: #333;
-    background-color: #ffffff;
-    transition: border-color 0.3s, background-color 0.3s;
-}
-
-input[type="text"]:readonly,
-input[type="number"]:readonly {
-    background-color: #e9ecef;
-    cursor: not-allowed;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="date"]:focus {
-    border-color: #0072ff;
-    background-color: #e6f7ff;
-    outline: none;
-}
-
-/* Button styles */
-button {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #0072ff;
-    color: #fff;
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-button:hover {
-    background-color: #005bb5;
-    transform: scale(1.05);
-}
-
-button:active {
-    background-color: #004494;
-    transform: scale(1);
-}
-
-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
+/* General form styling */
+form {
+    max-width: 600px; /* Limit the width of the form */
+    margin: 0 auto; /* Center the form horizontally */
+    padding: 20px; /* Add padding around the form */
+    border: 1px solid #ddd; /* Light border around the form */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background color */
+  }
+  
+  /* Styling for form groups */
+  div {
+    margin-bottom: 15px; /* Space between form groups */
+  }
+  
+  /* Label styling */
+  label {
+    display: block; /* Make labels block elements */
+    font-weight: bold; /* Bold text for labels */
+    margin-bottom: 5px; /* Space between label and input */
+    color: #333; /* Dark text color */
+  }
+  
+  /* Input and select styling */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select {
+    width: 100%; /* Full width for input fields */
+    padding: 10px; /* Padding inside input fields */
+    border: 1px solid #ccc; /* Light border for inputs */
+    border-radius: 4px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in the width */
+    font-size: 16px; /* Increase font size for better readability */
+  }
+  
+  /* Styling for the submit button */
+  button {
+    padding: 10px 15px; /* Padding inside the button */
+    font-size: 16px; /* Font size for the button text */
+    color: #fff; /* White text color */
+    background-color: #007bff; /* Bootstrap primary color */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  /* Hover effect for the button */
+  button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Success message styling */
+  div > div {
+    color: green; /* Green text color */
+    font-weight: bold; /* Bold text */
+    margin-top: 10px; /* Space above the success message */
+  }
+  

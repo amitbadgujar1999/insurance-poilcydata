@@ -11,8 +11,10 @@ export class ClaimdetailsComponent implements OnInit {
   claimNumber: string = '';
   claimDetails: any;
   loading: boolean = true;
-  approvalMessage: string = '';  // Add this property for feedback message
-   $last: any;
+  approvalMessage: string = '';  // For feedback message
+  showRejectModal: boolean = false;  // For modal visibility
+  rejectionReason: string = '';      // For storing rejection reason
+$last: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -65,6 +67,37 @@ export class ClaimdetailsComponent implements OnInit {
         }
       });
     }
+  }
+
+  rejectClaim(): void {
+    this.showRejectModal = true; // Show rejection modal
+  }
+
+  confirmReject(): void {
+    if (this.rejectionReason.trim()) {
+      // Prepare the updated claim status with rejection reason
+      const updatedClaim = { ...this.claimDetails, claimStatus: 'Rejected', remarks: this.rejectionReason };
+
+      this.dataService.updateClaim(this.claimNumber, updatedClaim).subscribe({
+        next: (response: any) => {
+          console.log('Claim rejected:', response);
+          this.claimDetails = response; // Update the claimDetails with the latest status
+          this.approvalMessage = 'Claim has been rejected successfully!';  // Set success message
+          this.showRejectModal = false;  // Hide the modal
+          this.rejectionReason = '';     // Clear rejection reason
+        },
+        error: (err: any) => {
+          console.error('Error rejecting claim:', err);
+          this.approvalMessage = 'Error rejecting claim. Please try again.';  // Set error message
+        }
+      });
+    } else {
+      alert('Please provide a reason for rejection.');
+    }
+  }
+
+  cancelReject(): void {
+    this.showRejectModal = false;  // Hide the modal
   }
 
   goBack(): void {

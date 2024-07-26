@@ -15,7 +15,8 @@ import { DoctorComponentComponent } from './doctor-component/doctor-component.co
 import { DataclaimComponent } from './dataclaim/dataclaim.component';
 import { ClaimdetailsComponent } from './claimdetails/claimdetails.component';
 import { PolicyFormComponent } from './policy-form/policy-form.component';
-import { ClaimFormComponent } from './claim-form/claim-form.component'; // Import HttpClientModule
+import { ClaimFormComponent } from './claim-form/claim-form.component';
+import { PolicyStatusCheckComponent } from './policy-status-check/policy-status-check.component'; // Import HttpClientModule
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ClaimFormComponent } from './claim-form/claim-form.component'; // Impor
     ClaimdetailsComponent,
     PolicyFormComponent,
     ClaimFormComponent,
+    PolicyStatusCheckComponent,
   
   ],
   imports: [

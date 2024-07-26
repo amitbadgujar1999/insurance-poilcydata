@@ -30,6 +30,13 @@
       </th>
       <th>Claim Number</th>
       <th>Claim Status</th>
+      <th>
+        Policy Status
+        <button (click)="sortBy('policyStatus', 'asc')">↑</button>
+        <button (click)="sortBy('policyStatus', 'desc')">↓</button>
+      </th>
+      <th>Actions</th>
+      <th>Policy Doenload</th>
     </tr>
   </thead>
   <tbody>
@@ -47,6 +54,19 @@
       <td>{{ item.policyEndDate | date }}</td>
       <td>{{ item.claimDetails?.id }}</td>
       <td>{{ item.claimDetails?.claimStatus }}</td>
+      <td>{{ item.policyStatus || 'Not Set' }}</td>
+      <td>
+        <select (change)="onStatusChange($event, item.policyNumber)" [value]="item.policyStatus || 'inactive'">
+          <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+        </select>
+        <button (click)="showReasonInput(item.policyNumber)">
+          Update Status
+        </button>
+      </td>
+      <td>
+      <button (click)="downloadPolicy(item)">
+        Download
+      </button></td>
     </tr>
   </tbody>
 </table>
@@ -56,4 +76,15 @@
   <button *ngFor="let pageNumber of getPageNumbers()" (click)="onPageChange(pageNumber)">
     {{ pageNumber }}
   </button>
+</div>
+
+<!-- Reason Input Modal -->
+<div *ngIf="selectedPolicyNumber" class="modal-overlay" (click)="cancelStatusChange()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Reason for Status Change</h3>
+    <p>Current Status: {{ currentStatus }}</p>
+    <input type="text" [(ngModel)]="changeReason" placeholder="Enter reason" />
+    <button (click)="confirmStatusChange()">Confirm</button>
+    <button (click)="cancelStatusChange()">Cancel</button>
+  </div>
 </div>

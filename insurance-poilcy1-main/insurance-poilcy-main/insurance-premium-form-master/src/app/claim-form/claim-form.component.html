@@ -36,7 +36,7 @@
     <!-- Claim Status -->
     <div class="form-group">
       <label for="claimStatus">Claim Status</label>
-      <input type="text" id="claimStatus" name="claimStatus" [(ngModel)]="claim.claimStatus" required />
+      <input type="text" id="claimStatus" name="claimStatus" [(ngModel)]="claim.claimStatus" required disabled/>
     </div>
   
     <!-- Date of Incident -->
@@ -98,8 +98,17 @@
       <label for="documentsSubmitted">Documents Submitted</label>
       <textarea id="documentsSubmitted" name="documentsSubmitted" [(ngModel)]="claim.documentsSubmitted" required></textarea>
     </div>
+
+    <div class="form-group">
+      <label for="files">Upload Files</label>
+      <input type="file" id="files" (change)="onFileChange($event)" multiple>
+    </div>
   
     <!-- Submit Button -->
     <button type="submit">Submit</button>
-  </form>
   
+  <!-- Success Message -->
+  <div *ngIf="successMessage" class="alert alert-success" role="alert">
+    {{ successMessage }}
+  </div>
+</form>

@@ -1,44 +1,50 @@
-<!-- src/app/policy-form/policy-form.component.html -->
-<div class="policy-form">
-    <h1>Policy Form</h1>
-  
-    <form (ngSubmit)="onSubmit()" #policyForm="ngForm">
-      <div class="form-group" *ngIf="!isPolicySubmitted">
-        <label for="policyNumber">Policy Number:</label>
-        <input type="text" id="policyNumber" name="policyNumber" [(ngModel)]="policyModel.policyNumber" readonly />
-      </div>
-  
-      <div class="form-group">
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" [(ngModel)]="policyModel.firstName" required />
-      </div>
-  
-      <div class="form-group">
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" [(ngModel)]="policyModel.lastName" required />
-      </div>
-  
-      <div class="form-group">
-        <label for="insuranceAmount">Insurance Amount:</label>
-        <input type="text" id="insuranceAmount" name="insuranceAmount" [(ngModel)]="policyModel.insuranceAmount" readonly />
-      </div>
-  
-      <div class="form-group">
-        <label for="Premium">Premium:</label>
-        <input type="number" id="Premium" name="Premium" [(ngModel)]="policyModel.Premium" readonly />
-      </div>
-  
-      <div class="form-group">
-        <label for="policyStartDate">Policy Start Date:</label>
-        <input type="date" id="policyStartDate" name="policyStartDate" [(ngModel)]="policyModel.policyStartDate" required />
-      </div>
-  
-      <div class="form-group">
-        <label for="policyEndDate">Policy End Date:</label>
-        <input type="date" id="policyEndDate" name="policyEndDate" [(ngModel)]="policyModel.policyEndDate" required />
-      </div>
-  
-      <button type="submit" [disabled]="isPolicySubmitted">Submit</button>
-    </form>
+<form (ngSubmit)="onSubmit()" #policyForm="ngForm">
+  <div>
+    <label for="policyNumber">Policy Number:</label>
+    <input id="policyNumber" name="policyNumber" [(ngModel)]="policyModel.policyNumber" [value]="policyModel.policyNumber" readonly />
   </div>
+
+  <div>
+    <label for="firstName">First Name:</label>
+    <input id="firstName" name="firstName" [(ngModel)]="policyModel.firstName" required />
+  </div>
+
+  <div>
+    <label for="lastName">Last Name:</label>
+    <input id="lastName" name="lastName" [(ngModel)]="policyModel.lastName" required />
+  </div>
+
+  <div>
+    <label for="insuranceCoverage">Insurance Coverage:</label>
+    <select id="insuranceCoverage" name="insuranceCoverage" [(ngModel)]="policyModel.insuranceCoverage" required>
+      <option value="100000">100,000</option>
+      <option value="200000">200,000</option>
+      <option value="300000">300,000</option>
+      <option value="400000">400,000</option>
+      <option value="500000">500,000</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="insurancePremium">Insurance Premium:</label>
+    <input id="insurancePremium" name="insurancePremium" type="number" [(ngModel)]="policyModel.insurancePremium" placeholder="Enter premium amount" required />
+  </div>
+
+  <div>
+    <label for="policyStartDate">Policy Start Date:</label>
+    <input id="policyStartDate" name="policyStartDate" type="date" [(ngModel)]="policyModel.policyStartDate" required />
+  </div>
+
+  <div>
+    <label for="policyEndDate">Policy End Date:</label>
+    <input id="policyEndDate" name="policyEndDate" type="date" [(ngModel)]="policyModel.policyEndDate" required />
+  </div>
+
+  <button type="submit">Submit</button>
   
+  <!-- Display success message if policy is submitted -->
+  <div *ngIf="isPolicySubmitted" class="submission-message">
+    <h3>Policy Submitted Successfully!</h3>
+    <p>Your policy number is: {{ submittedPolicyNumber }}</p>
+  </div>
+</form>

@@ -1,90 +1,65 @@
-<!-- premium-form.component.html -->
-<div class="premium-form">
-  <h1>Insurance Premium Calculator</h1>
-
-  <form (ngSubmit)="onSubmit()" #premiumForm="ngForm">
-    <!-- Personal Information -->
+<div class="premium-form-container">
+  <h2>Calculate Insurance Premium</h2>
+  
+  <form (ngSubmit)="onCalculatePremium()">
     <div class="form-group">
       <label for="firstName">First Name:</label>
-      <input type="text" id="firstName" name="firstName" [(ngModel)]="formModel.firstName" required />
+      <input type="text" id="firstName" [(ngModel)]="firstName" name="firstName" required>
     </div>
-
+    
     <div class="form-group">
       <label for="lastName">Last Name:</label>
-      <input type="text" id="lastName" name="lastName" [(ngModel)]="formModel.lastName" required />
+      <input type="text" id="lastName" [(ngModel)]="lastName" name="lastName" required>
     </div>
-
-    <div class="form-group">
-      <label for="birthday">Date of Birth:</label>
-      <input type="date" id="birthday" name="birthday" [(ngModel)]="formModel.birthday" required />
-    </div>
-
-    <div class="form-group">
-      <label for="gender">Gender:</label>
-      <select id="gender" name="gender" [(ngModel)]="formModel.gender" required>
-        <option value="" disabled>Select gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-
+    
     <div class="form-group">
       <label for="phoneNumber">Phone Number:</label>
-      <input type="tel" id="phoneNumber" name="phoneNumber" [(ngModel)]="formModel.phoneNumber" required />
+      <input type="text" id="phoneNumber" [(ngModel)]="phoneNumber" name="phoneNumber" required>
     </div>
-
-    <!-- Habits -->
+    
     <div class="form-group">
-      <label>Habits:</label>
-      <div>
-        <input type="checkbox" id="tobacco" name="tobacco" [(ngModel)]="formModel.plan.tobacco" />
-        <label for="tobacco">Tobacco</label>
-      </div>
-      <div>
-        <input type="checkbox" id="smoking" name="smoking" [(ngModel)]="formModel.plan.smoking" />
-        <label for="smoking">Smoking</label>
-      </div>
-      <div>
-        <input type="checkbox" id="alcohol" name="alcohol" [(ngModel)]="formModel.plan.alcohol" />
-        <label for="alcohol">Alcohol</label>
-      </div>
+      <label for="dateOfBirth">Date of Birth:</label>
+      <input type="date" id="dateOfBirth" [(ngModel)]="dateOfBirth" name="dateOfBirth" (change)="onDateOfBirthChange($event)" required>
     </div>
-
-    <!-- Insurance Details -->
+    
     <div class="form-group">
-      <label for="policyDuration">Policy Duration (years):</label>
-      <select id="policyDuration" name="policyDuration" [(ngModel)]="formModel.policyDuration" required>
-        <option value="1">1 year</option>
-        <option value="2">2 years</option>
-        <option value="3">3 years</option>
-        <option value="5">5 years</option>
+      <label for="coverage">Insurance Coverage:</label>
+      <select id="coverage" [(ngModel)]="insuranceCoverageAmount" name="coverage">
+        <option *ngFor="let option of coverageOptions" [value]="option">{{ option | currency:'INR' }}</option>
       </select>
     </div>
-
+    
     <div class="form-group">
-      <label for="insuranceAmount">Insurance Amount:</label>
-      <select id="insuranceAmount" name="insuranceAmount" [(ngModel)]="formModel.insuranceAmount" required>
-        <option value="100000">100,000</option>
-        <option value="200000">200,000</option>
-        <option value="300000">300,000</option>
-        <option value="400000">400,000</option>
-        <option value="500000">500,000</option>
-        <!-- Add more options as needed -->
+      <label for="duration">Duration (Years):</label>
+      <select id="duration" [(ngModel)]="selectedDuration" name="duration">
+        <option *ngFor="let duration of durations" [value]="duration">{{ duration }} Years</option>
       </select>
     </div>
+    <div><h5>SELECT BAD HABIT</h5></div>
+    <div class="form-group">
+      <label for="tobacco">Tobacco:</label>
+      <input type="checkbox" id="tobacco" [(ngModel)]="hasTobacco" name="tobacco">
+    </div>
+    
+    <div class="form-group">
+      <label for="smoking">Smoking:</label>
+      <input type="checkbox" id="smoking" [(ngModel)]="hasSmoking" name="smoking">
+    </div>
+    
+    <div class="form-group">
+      <label for="alcohol">Alcohol:</label>
+      <input type="checkbox" id="alcohol" [(ngModel)]="hasAlcohol" name="alcohol">
+    </div>
 
-    <!-- Submit Button -->
     <button type="submit">Calculate Premium</button>
   </form>
 
-  <!-- Display Calculated Premium for the Selected Duration -->
-  <div *ngIf="calculatedPremiumForSelectedDuration !== null">
-    <h2>Calculated Premium</h2>
-    <p>Premium for {{ formModel.policyDuration }} year(s): {{ calculatedPremiumForSelectedDuration | currency:'INR':'symbol' }}</p>
-    <!-- Proceed to Policy Form Button -->
-    <button (click)="proceedForPolicyForm()">Proceed to Policy Form</button>
+  <!-- Display premium only if calculatedPremium is set -->
+  <div *ngIf="calculatedPremium !== null" class="premium-result">
+    <h3>Calculated Premium: {{ getSelectedPremium() | currency:'INR' }}</h3>
   </div>
-  <div><button (click)="proceedForclaimForm()">Proceed to claim-form </button>
-  </div>
+  <button (click)="navigateToPolicyForm()">Proceed to Policy Form</button>
+  <button (click)="navigateToClaimForm()">Proceed to Claim Form</button>
+  <button (click)="navigateTopolicystatuscheck()">Proceed to Policy-status-check</button>
+
 </div>

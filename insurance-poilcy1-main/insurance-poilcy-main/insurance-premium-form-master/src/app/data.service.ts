@@ -32,6 +32,8 @@ export class DataService {
       })
     );
   }
+  
+
 
   getClaims(): Observable<any[]> {
     return this.http.get<any[]>(this.claimsUrl).pipe(
@@ -99,5 +101,29 @@ export class DataService {
   getClaimDetails1(policyNumber: string): Observable<any> {
     return this.http.get<any>(`${this.claimDetailsUrl}?policyNumber=${policyNumber}`);
   }
+  updatePolicyStatus(policyNumber: string, status: string, reason: string): Observable<void> {
+    return this.http.patch<void>(`${this.usersUrl}/${policyNumber}`, {
+      policyStatus: status,
+      changeReason: reason
+    });
+  }
   
+  getPolicyStatus(policyNumber: string): Observable<any> {
+    return this.http.get<any>(`${this.usersUrl}?policyNumber=${policyNumber}`).pipe(
+      catchError(error => {
+        console.error('Error fetching policy status:', error);
+        return of(null); // Return null on error
+      })
+    );
+  }
+
+  // Method to get claim status by claim number
+  getClaimStatus(claimNumber: string): Observable<any> {
+    return this.http.get<any>(`${this.claimDetailsUrl}?claimNumber=${claimNumber}`).pipe(
+      catchError(error => {
+        console.error('Error fetching claim status:', error);
+        return of(null); // Return null on error
+      })
+    );
+  }
 }
